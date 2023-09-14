@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>커피 주문 페이지</title>
+</head>
+<body>
+    <h1>커피 주문 페이지</h1>
+    <p>원하는 커피를 선택하세요:</p>
+    <form>
+        <div>
+            <button onclick="decreaseQuantity('americano')">-</button>
+            <span id="quantity-americano">0</span>
+            <button onclick="increaseQuantity('americano')">+</button>
+            <label for="americano">아메리카노</label>
+            <input type="hidden" id="americano" name="coffee" value="아메리카노">
+        </div>
+        <br>
+        <div>
+            <button onclick="decreaseQuantity('latte')">-</button>
+            <span id="quantity-latte">0</span>
+            <button onclick="increaseQuantity('latte')">+</button>
+            <label for="latte">라떼</label>
+            <input type="hidden" id="latte" name="coffee" value="라떼">
+        </div>
+        <br>
+        <div>
+            <button onclick="decreaseQuantity('espresso')">-</button>
+            <span id="quantity-espresso">0</span>
+            <button onclick="increaseQuantity('espresso')">+</button>
+            <label for="espresso">에스프레소</label>
+            <input type="hidden" id="espresso" name="coffee" value="에스프레소">
+        </div>
+        <br>
+        <input type="button" value="주문하기" onclick="checkCoffee()">
+    </form>
+
+    <script>
+        // 각 커피 항목에 대한 수량을 저장할 객체
+        var quantities = {
+            americano: 0,
+            latte: 0,
+            espresso: 0
+        };
+
+        function decreaseQuantity(coffeeType) {
+            var quantityElement = document.getElementById("quantity-" + coffeeType);
+            quantities[coffeeType] = Math.max(0, quantities[coffeeType] - 1);
+            quantityElement.textContent = quantities[coffeeType];
+        }
+
+        function increaseQuantity(coffeeType) {
+            var quantityElement = document.getElementById("quantity-" + coffeeType);
+            quantities[coffeeType]++;
+            quantityElement.textContent = quantities[coffeeType];
+        }
+
+        function checkCoffee() {
+            var selectedCoffees = [];
+
+            // 각 커피 항목의 수량 확인
+            for (var coffeeType in quantities) {
+                if (quantities[coffeeType] > 0) {
+                    selectedCoffees.push(coffeeType.charAt(0).toUpperCase() + coffeeType.slice(1) + " (수량: " + quantities[coffeeType] + ")");
+                }
+            }
+
+            // 선택한 커피 정보 확인창에 출력
+            if (selectedCoffees.length > 0) {
+                alert("선택한 커피:\n" + selectedCoffees.join("\n"));
+            } else {
+                alert("커피를 선택하세요.");
+            }
+        }
+    </script>
+</body>
+</html>
